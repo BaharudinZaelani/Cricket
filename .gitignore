@@ -1,5 +1,2 @@
 /storage/*
-/venndor/*
-/crickets/*
-local
-/database/*
+/vendor/*
