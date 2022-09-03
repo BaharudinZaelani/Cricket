@@ -1,9 +1,9 @@
 
-# LocalFW
+# CRICKET
 ![GitHub forks](https://img.shields.io/github/forks/BaharudinZaelani/Cricket?style=social) 
 ![GitHub watchers](https://img.shields.io/github/watchers/BaharudinZaelani/Cricket?style=social)
 
-LocalFW adalah Framework untuk Website yang dibangun dengan bahasa PHP. 
+CRICKET adalah Framework untuk Website yang dibangun dengan bahasa PHP. 
 ### Aplikasi yang dibangun dengan LocalFW
 - https://Skart.rf.gd
 - https://zawnime.rf.gd
