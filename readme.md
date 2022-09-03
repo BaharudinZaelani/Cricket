@@ -4,7 +4,7 @@
 ![GitHub watchers](https://img.shields.io/github/watchers/BaharudinZaelani/Cricket?style=social)
 
 CRICKET adalah Framework untuk Website yang dibangun dengan bahasa PHP. 
-### Aplikasi yang dibangun dengan LocalFW
+### Aplikasi yang dibangun dengan CRICKET
 - https://Skart.rf.gd
 - https://zawnime.rf.gd
 - https://zawapi.000webhostapp.com/
