@@ -25,6 +25,9 @@ class App {
             $this->controller = ucfirst($url[1]);
             unset($url[1]);
         }
+
+        $ch = explode("?", $this->controller);
+        $this->controller = $ch[0];
         
         if( !file_exists( $_SERVER['DOCUMENT_ROOT'] .  "/app/controller/" . $this->controller . ".php") ){
             // header
