@@ -19,7 +19,7 @@ CRICKET adalah Framework untuk Website yang dibangun dengan bahasa PHP.
 
 
 ## Dokumentasi
-Untuk menjalankan
+Untuk menjalankan serve
 ```bash
 php local serve
 ```
