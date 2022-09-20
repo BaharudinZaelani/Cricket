@@ -7,16 +7,20 @@
  * ========================================================
  * 
 */
+include "init.php";
 
 
 $ruri = $_SERVER['REQUEST_URI'];
 $host = explode(":", $_SERVER['HTTP_HOST']);
 if ( isset( $host[0] ) AND $host[0] == "localhost" ){ 
-
+    
+    
     $ruri = $_SERVER['REQUEST_URI'];
     $uri = explode("/", $ruri);
     if ( isset($uri[1]) ) {
-        $ampp = $uri[1]; 
+        $ampp = $uri[1];
+        define("PROJECT", "/" . $ampp);
+        define("PATH", PROJECT ); 
         if ( !empty($ampp) ) {
             $_SERVER['DOCUMENT_ROOT'] .= "/" . $ampp;
         }
@@ -35,9 +39,12 @@ if ( isset( $host[0] ) AND $host[0] == "localhost" ){
     if ( empty($rString) ) {
         $rString = "/";
     }
+
     $_SERVER['REQUEST_URI'] = substr($rString, 0, ( strlen($rString) == 0 )?  strlen($rString) - 1 : strlen($rString) );
+}else {
+    define("PATH", URI ); 
+    define("PROJECT", "");
 }
-include "init.php";
 
 
 

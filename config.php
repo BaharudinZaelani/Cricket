@@ -5,7 +5,6 @@
  * 
 */
 define("APP_NAME", htmlspecialchars("< CRICKETS />")); // This a app name for your project
-define("PATH", $_SERVER['DOCUMENT_ROOT']); // Used for js/css or other static path
 
 define("SERVER", "127.0.0.1:8081"); // local server url path your project run
 define("URI", "http://" . SERVER ); 

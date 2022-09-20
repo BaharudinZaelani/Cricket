@@ -17,10 +17,12 @@ class App {
         }
 
         $this->pretty($this->url(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH)));
-    }
 
+    }
+    
     function pretty($url)// priority
     {
+        // var_dump($url);
         if ( $url[1] !== "" ){
             $this->controller = ucfirst($url[1]);
             unset($url[1]);
@@ -71,10 +73,11 @@ class App {
     }
 
     public static function errorLog($error, $message){
-        Views::setContentBody([
+        $v = new Views();
+        $v::setContentBody([
             "error"
         ]);
-        Views::sendData([
+        $v::sendData([
             "error" => $error,
             "message" => $message
         ]);
@@ -96,18 +99,19 @@ class App {
         $res = json_decode($rOne);
         // var_dump($res->month);
         // die;
-        return date('Y-M-d | H:i');
+        return date('Y-m-d');
+    }
+
+    public static function sidebarActive(){
+        var_dump(PATH);
     }
 
     public static function redirect($uri, $message = "")// priority
     {
-        header("Location: " . $uri);
+        $res = PROJECT . $uri;
+        header("Location: " . $res);
     }
 
-
-
-
-    // Models
     public static function loadModel($model) {
         return new $model();
     }

@@ -28,9 +28,9 @@ class Database{
     public function getAll($operator = "", $row = "", $value = ""){
         $table = $this->table;
         if( !empty($operator) ){
-            $query = "SELECT * FROM $table WHERE `$row` $operator $value";
+            $query = "SELECT * FROM `$table` WHERE `$row` $operator '$value'";
         }else {
-            $query = "SELECT * FROM $table";
+            $query = "SELECT * FROM `$table`";
         }
         
         $result = Database::query($query);
@@ -58,8 +58,8 @@ class Database{
 
         $result = mysqli_fetch_object(Database::query($query));
         if ( is_null($result) ) {
-            App::errorLog("db_error", "NULL");
-            return;
+            // App::errorLog("db_error", "NULL");
+            return NULL;
         }
         
 
