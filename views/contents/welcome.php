@@ -9,9 +9,10 @@
 </style>
 <div class="center">
     <div class="text-center">
-        <h1>Hallo <?= APP_NAME ?></h1>
-        <span>X-Made-By : @BaharDev</span>
-        <br>
-        <span><?= App::date(); ?></span>
+        <h1>Welcome <?= APP_NAME ?></h1>
+        <?= Views::getComponents('sidebar', [
+            "by" => "X-Made-By : @BaharDev",
+            "time" => App::date()
+        ]) ?>
     </div>
 </div>

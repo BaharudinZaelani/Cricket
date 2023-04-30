@@ -7,7 +7,6 @@ class Home extends Views{
         Views::setContentBody([
             "contents/welcome"
         ]);
-        
     }
 
 }

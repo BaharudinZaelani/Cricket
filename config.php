@@ -4,7 +4,7 @@
  * Where basic property your Application here .
  * 
 */
-define("APP_NAME", htmlspecialchars("ZHospital")); // This a app name for your project
+define("APP_NAME", htmlspecialchars("Cricket")); // This a app name for your project
 define("SHOW_ERROR", true); // If you didn't want showing error, set this to false, if your project was released
 
 define("SERVER", "127.0.0.1:8081"); // local server url path your project run
