@@ -12,9 +12,9 @@ include "init.php";
 
 $ruri = $_SERVER['REQUEST_URI'];
 $host = explode(":", $_SERVER['HTTP_HOST']);
+
+// if server run at xampp or ampp, whatever that is. ㄟ( ▔, ▔ )ㄏ
 if ( isset( $host[0] ) AND $host[0] == "localhost" ){ 
-    
-    
     $ruri = $_SERVER['REQUEST_URI'];
     $uri = explode("/", $ruri);
     if ( isset($uri[1]) ) {
@@ -50,5 +50,3 @@ if ( isset( $host[0] ) AND $host[0] == "localhost" ){
 
 // App Start
 $app = new App();
-
-

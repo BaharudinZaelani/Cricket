@@ -1,5 +1,7 @@
 <?php 
 include "config.php";
+
+// script for dev
 $key = end($argv);
 
 // start server
@@ -88,6 +90,14 @@ if ( $argv[1] == "create" ) {
                 mysqli_query($con, "CREATE DATABASE " . $keyword);
                 echo "DONE !";
                 exit;
+            }else {
+                echo "Connect to database\n";
+                $con = mysqli_connect(HOST, USER, PASSWORD);
+                echo "DONE !";
+
+                echo "\nCreate new database " . DB_NAME . "\n";
+                mysqli_query($con, "CREATE DATABASE " . DB_NAME);
+                echo "DONE !";
             }
         }
 
@@ -98,42 +108,178 @@ if ( $argv[1] == "create" ) {
 // ex : php local migrate
 if ( $argv[1] == "migrate" ) {
     // migrate data table
-    $dir = "./database/create";
+    $dir = "./database/create/";
     $files = scandir($dir, 1);
-    for ( $i = 0; $i < count($files) - 2; $i++ ) {
-        include $dir . "/" .$files[$i];
-        
-        // get file name
-        echo "\nGet File data \n";
-        $filename = explode(".", $files[$i]);
-        echo "Done \n";
-        
-        // string query
-        echo "========================\nCreate string query \n";
-        $query = "CREATE TABLE IF NOT EXISTS " . $filename[0] . " (";
-        
-        foreach ( $tables as $key => $rowTb ) {
-            // get data row
-            $query .= " $key $rowTb,";
-        }
-        $query .= ");";
-        
-        // finishing (remove last comma)
-        $result = str_replace(",);", ");", $query);
-        echo "Done \n";
-        
-        // connect to db
-        echo "========================\nConnect to Database \n";
-        $con = mysqli_connect(HOST, USER, PASSWORD, DB_NAME);
-        echo "Done \n";
-        
-        // execute table
-        echo "========================\nExecute Query \n";
-        mysqli_query($con, $result);
-        echo "Done\n";
+    $reEx = [];
 
-        echo "========================\nFinal Query Execute ======================== \n";
-        echo $result;
-        echo "\nFinal Query Execute ======================== \n";
+    $conn = mysqli_connect(HOST, USER, PASSWORD, DB_NAME);
+    $alter = [];
+
+    foreach( $files as $rFile ){
+
+        $fileName = explode(".", $rFile);
+        $rFileName = "";
+        if ( $fileName[1] == "php" ) {
+            $rFileName = $fileName[0];
+        }
+
+        $query = [];
+
+        if ( !empty($rFileName) ) {
+            require $dir . $rFileName . ".php";
+            $qq = queryTable($conn, $rFileName, $tables);
+            if ( is_array($qq) ) {
+                $alter["alter"] = $qq;
+            }
+        }
     }
+
+    if ( !empty($alter) ) {
+        foreach ( $alter['alter'] as $row ) {
+            // var_dump($row);die;
+            mysqli_query($conn, $row);
+        }
+    }
+    
+
+    // {
+        
+    //     // var_dump($alter);
+    //     // die;
+    //     // for ( $i = 0; $i < count($files) - 2; $i++ ) {
+    //     //     include $dir . "/" .$files[$i];
+            
+    //     //     // get file name
+    //     //     echo "\nGet File data \n";
+    //     //     $filename = explode(".", $files[$i]);
+    //     //     echo "Done \n";
+            
+    //     //     // string query
+    //     //     echo "========================\nCreate string query \n";
+    //     //     $query = "CREATE TABLE IF NOT EXISTS " . $filename[0] . " (";
+            
+    //     //     foreach ( $tables as $key => $rowTb ) {
+    //     //         // get data row
+    //     //         $query .= " $key $rowTb,";
+    //     //     }
+    //     //     $query .= ");";
+
+            
+    //     //     // finishing (remove last comma)
+    //     //     $result = str_replace(",);", ");", $query);
+    //     //     echo "Done \n";
+            
+    //     //     // connect to db
+    //     //     echo "========================\nConnect to Database \n";
+    //     //     $con = mysqli_connect(HOST, USER, PASSWORD, DB_NAME);
+    //     //     echo "Done \n";
+            
+    //     //     // execute table
+    //     //     echo "========================\nExecute Query \n";
+    //     //     try {
+    //     //         $ee = mysqli_query($con, $result);
+    //     //     }catch( Exception $e ) {
+    //     //         $reEx[] = $result;
+    //     //     }
+    //     //     echo "Done\n";
+
+    //     //     echo "========================\nFinal Query Execute ======================== \n";
+    //     //     echo $result;
+    //     //     echo "\nFinal Query Execute ======================== \n";
+    //     // }
+
+    //     // alternative way
+    //     // if ( !empty($reEx) ) {
+
+
+    //     //     $tbI = [];
+    //     //     echo "========================\nExecute Query \n";
+    //     //     foreach ( $reEx as $tbr ) {
+    //     //         echo "========================\nConnect to Database \n";
+    //     //         $con = mysqli_connect(HOST, USER, PASSWORD, DB_NAME);
+    //     //         echo "Done \n";
+
+    //     //         // kan ini harusnya kirim query jika tidak error !!!!
+    //     //         echo "migrate alternative v1\n";
+    //     //         try { // ini anjimmmmm !
+    //     //             mysqli_query($con, $tbr);
+    //     //         }catch( Exception $e ){ // Malah masuk sini semua taek !!!!!!!!!!
+    //     //             $tbI[] = $tbr;
+    //     //         }
+    //     //         echo "Done";
+    //     //         echo "\nFinal Query Execute ======================== \n";
+    //     //         echo $tbr;
+    //     //         echo "\nFinal Query Execute ======================== \n\n";
+    //     //     }
+
+    //     //     $tbII = [];
+    //     //     if ( !empty($tbI) ) {
+    //     //         foreach ( $tbI as $rr ){
+    //     //             echo "========================\nConnect to Database \n";
+    //     //             $con = mysqli_connect(HOST, USER, PASSWORD, DB_NAME);
+    //     //             echo "Done \n";
+
+    //     //             echo "migrate alternative v2\n";
+    //     //             try {
+    //     //                 mysqli_query($con, $rr);
+    //     //             }catch( Exception $e ){
+    //     //                 $tbII[] = $rr;
+    //     //             }
+    //     //             echo "Done";
+    //     //             echo "\nFinal Query Execute ======================== \n";
+    //     //             echo $rr;
+    //     //             echo "\nFinal Query Execute ======================== \n\n";
+    //     //         }
+    //     //     }else {
+    //     //         if ( !empty($tbII) ) {
+    //     //             foreach ( $tbII as $re ) {
+    //     //                 echo "========================\nConnect to Database \n";
+    //     //                 $con = mysqli_connect(HOST, USER, PASSWORD, DB_NAME);
+    //     //                 echo "Done \n";
+
+    //     //                 echo "migrate alternative v3\n\n";
+    //     //                 mysqli_query($con, $re);
+    //     //                 echo "Done";
+
+    //     //                 echo "\nFinal Query Execute ======================== \n";
+    //     //                 echo $re;
+    //     //                 echo "\nFinal Query Execute ======================== \n\n";
+    //     //             }
+    //     //         }
+    //     //     }
+    //     // }
+    // }
+}
+
+// app info
+if ( $argv[1] == "info" ) {
+    echo "========================================================";
+    echo "\n               WELCOME to CRICKETS CLI";
+    echo "\n                 Created by @BaharDev";
+    echo "\n           Thanks for using my PHP framework\n";
+    echo "========================================================";
+    echo "\nYour App Name       : ". APP_NAME;
+    echo "\nUsing Database      : ". ((USING_DB)? "yes" : "no");
+    if ( USING_DB ) {
+        echo "\nYour Database Name  : ". DB_NAME;
+    }
+}
+
+function queryTable($conn, $rFileName, $tables){
+    $createTableQuery = "CREATE TABLE IF NOT EXISTS `" . DB_NAME . "`." . "`" . $rFileName . "`" . " (";
+    $tmpQuery = "";
+    foreach ( $tables as $key => $rr ) {
+        $tmpQuery .= $key . " " . $rr . ", ";
+    }
+    $tmpQuery .= ");";
+    $tmpQuery = str_replace(", );", " );", $tmpQuery);
+    $result = $createTableQuery . $tmpQuery;
+    try {
+        $ss = mysqli_query($conn, $result);
+        echo "create " . $rFileName . " : " . $ss . "\n";
+        return true;
+    }catch( Exception $e ){
+        $alter[] = $result;
+    }
+    return $alter;
 }

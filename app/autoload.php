@@ -4,6 +4,7 @@
  * Auto load class
  * 
 */
+require './vendor/autoload.php';
 
 // Load App
 spl_autoload_register(function($class){

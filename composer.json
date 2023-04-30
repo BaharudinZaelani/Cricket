@@ -1,0 +1,16 @@
+{
+    "name": "bahardev/cricket",
+    "description": "PHP Framework",
+    "autoload": {
+        "psr-4": {
+            "Bahardev\\Cricket\\": "app/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Zaelani",
+            "email": "bahar32harz@gmail.com"
+        }
+    ],
+    "require": {}
+}
